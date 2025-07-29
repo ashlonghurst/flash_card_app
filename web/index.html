@@ -3,29 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Flashcard Generator</title>
+  <title>Study Flashcards Generator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="container">
-    <h1>📘 AI Flashcard Generator</h1>
-    <p>Upload your lecture notes (PDF) and generate study flashcards instantly.</p>
-
-    <input type="file" id="pdfUpload" accept="application/pdf" />
-    <button id="generateBtn">Generate Flashcards</button>
-
-    <div id="status"></div>
-
-    <textarea id="flashcards" placeholder="Flashcards will appear here..." readonly></textarea>
-
-    <div class="button-row">
-      <button id="copyBtn">📋 Copy to Clipboard</button>
-      <button id="downloadBtn">💾 Save as PDF</button>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">📘 Study Flashcards</a>
     </div>
-  </div>
+  </nav>
 
-  <script src="script.js"></script>
+  <main class="container my-5">
+    <div class="text-center mb-4">
+      <h1 class="display-5 fw-semibold">AI Flashcard Generator</h1>
+      <p class="lead">Upload your lecture notes (PDF) and receive flashcards instantly using GPT-4o.</p>
+    </div>
+
+    <div class="card p-4 shadow-sm">
+      <input type="file" id="pdfUpload" accept="application/pdf" class="form-control mb-3"/>
+      <button id="generateBtn" class="btn btn-primary w-100">Generate Flashcards</button>
+    </div>
+
+    <div id="loading" class="text-center my-4" style="display: none;">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-2">Generating flashcards...</p>
+    </div>
+
+    <div id="flashcardsContainer" class="mt-5" style="display: none;">
+      <h3>Your Flashcards</h3>
+      <textarea id="flashcardsText" class="form-control mb-3" rows="12" readonly></textarea>
+      <button class="btn btn-secondary me-2" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+      <button class="btn btn-outline-primary" onclick="saveAsPDF()">📄 Save as PDF</button>
+    </div>
+  </main>
+
+  <footer class="text-center py-4 bg-light text-muted">
+    &copy; 2025 Study Flashcards | All rights reserved
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
+
 
 
