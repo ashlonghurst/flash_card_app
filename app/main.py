@@ -1,9 +1,5 @@
 # app/main.py
 
-@app.route("/")
-def home():
-    return "✅ Flashcard backend is online and ready."
-
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -15,6 +11,10 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route("/")
+def home():
+    return "✅ Flashcard backend is online and ready."
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
