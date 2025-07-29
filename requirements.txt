@@ -1,4 +1,6 @@
-streamlit
-pymupdf
+flask
+flask-cors
 openai
 python-dotenv
+gunicorn
+
