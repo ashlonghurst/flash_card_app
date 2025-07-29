@@ -1,6 +1,5 @@
 # app/main.py
 
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
@@ -16,15 +15,15 @@ CORS(app)
 def home():
     return "✅ Flashcard backend is online and ready."
 
+# ✅ Only use the API key – project ID is not required
 client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    project=os.getenv("OPENAI_PROJECT_ID")
+    api_key=os.getenv("OPENAI_API_KEY")
 )
 
 @app.route("/generate", methods=["POST"])
 def generate_flashcards():
     data = request.get_json()
-    lecture_text = data.get("text", "")[:4000]  # Limit size
+    lecture_text = data.get("text", "")[:4000]  # Limit to 4000 chars
     prompt = f"""
 You're a university study coach. Based on the following lecture notes, generate 10 helpful flashcards in Q&A format.
 
@@ -41,9 +40,10 @@ Lecture:
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Only used for local testing (not in production)
+# Only used for local testing
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
