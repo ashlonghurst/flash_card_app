@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Study Flashcards</title>
+  <title>AI Flashcard Generator</title>
 </head>
 <body>
-  <h1>Welcome to Study Flashcards 🎓</h1>
-  <p>This is your landing page.</p>
-  <a href="https://flash-card-app-2.onrender.com">Go to App</a>
+  <h1>📘 AI Flashcard Generator</h1>
+  <input type="file" id="pdfInput" accept="application/pdf" />
+  <button onclick="uploadPDF()">Generate Flashcards</button>
+  <pre id="output"></pre>
+
+  <!-- Load PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
+
