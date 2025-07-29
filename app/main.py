@@ -1,53 +1,46 @@
-import os
-import streamlit as st
-import fitz  # PyMuPDF
+# app/main.py
+
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from openai import OpenAI
+import os
 from dotenv import load_dotenv
 
-# ✅ Load environment variables from .env
 load_dotenv()
+
+app = Flask(__name__)
+CORS(app)
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     project=os.getenv("OPENAI_PROJECT_ID")
 )
 
-# Extract text from uploaded PDF
-def extract_text_from_pdf(uploaded_pdf):
-    doc = fitz.open(stream=uploaded_pdf.read(), filetype="pdf")
-    return "\n".join([page.get_text() for page in doc])
-
-# Generate flashcards using GPT-4o
-def generate_flashcards(text):
+@app.route("/generate", methods=["POST"])
+def generate_flashcards():
+    data = request.get_json()
+    lecture_text = data.get("text", "")[:4000]  # Limit size
     prompt = f"""
-You're a university study coach. Based on the following lecture notes, generate 10 flashcards in Q&A format.
+You're a university study coach. Based on the following lecture notes, generate 10 helpful flashcards in Q&A format.
 
 Lecture:
-{text[:4000]}
+{lecture_text}
 """
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7
-    )
-    return response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7
+        )
+        return jsonify({"flashcards": response.choices[0].message.content})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-# Streamlit UI
-st.set_page_config(page_title="AI Flashcard Generator", page_icon="📘")
-st.title("🎓 AI Flashcard Generator (GPT-4o)")
+# Only used for local testing (not in production)
+if __name__ == "__main__":
+    app.run(debug=True)
 
-uploaded_pdf = st.file_uploader("Upload your lecture notes (PDF)", type="pdf")
 
-if uploaded_pdf:
-    text = extract_text_from_pdf(uploaded_pdf)
-
-    if st.button("Generate Flashcards"):
-        with st.spinner("Generating flashcards using GPT-4o..."):
-            try:
-                flashcards = generate_flashcards(text)
-                st.text_area("📋 Your Flashcards", flashcards, height=400)
-            except Exception as e:
-                st.error(f"❌ OpenAI API Error: {e}")
 
 
 
