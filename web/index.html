@@ -1,17 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Flashcard Generator</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>📘 AI Flashcard Generator</h1>
-  <input type="file" id="pdfInput" accept="application/pdf" />
-  <button onclick="uploadPDF()">Generate Flashcards</button>
-  <pre id="output"></pre>
+  <div class="container">
+    <h1>📘 AI Flashcard Generator</h1>
+    <p>Upload your lecture notes (PDF) and generate study flashcards instantly.</p>
 
-  <!-- Load PDF.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-  <script src="main.js"></script>
+    <input type="file" id="pdfUpload" accept="application/pdf" />
+    <button id="generateBtn">Generate Flashcards</button>
+
+    <div id="status"></div>
+
+    <textarea id="flashcards" placeholder="Flashcards will appear here..." readonly></textarea>
+
+    <div class="button-row">
+      <button id="copyBtn">📋 Copy to Clipboard</button>
+      <button id="downloadBtn">💾 Save as PDF</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
 
